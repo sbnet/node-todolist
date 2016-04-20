@@ -1,10 +1,11 @@
-var express = require('express');
-var session = require('cookie-session'); // Charge le middleware de sessions
-var bodyParser = require('body-parser'); // Charge le middleware de gestion des paramètres
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-var app = express();
-
+var app = require('express')(),
+    session = require('cookie-session'), // Charge le middleware de sessions
+    bodyParser = require('body-parser'), // Charge le middleware de gestion des paramètres
+    urlencodedParser = bodyParser.urlencoded({ extended: false }),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server),
+    ent = require('ent'), // Permet de bloquer les caractères HTML 
+    fs = require('fs');
 
 /* On utilise les sessions */
 app.use(session({secret: 'todotopsecret'}))
