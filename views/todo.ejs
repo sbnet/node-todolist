@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Ma todolist</title>
@@ -7,22 +6,37 @@
             a {text-decoration: none; color: black;}
         </style>
     </head>
-
+ 
     <body>
-        <h1>Ma todolist</h1>
+        <h1 id="h1">Ma todolist</h1>
+ 
+        <ul id="ul"></ul>
 
-        <ul>
-        <% todolist.forEach(function(todo, index) { %>
-            <li><a href="/todo/supprimer/<%= index %>">✘</a> <%= todo %></li>
-        <% }); %>
-        </ul>
-
-        <form action="/todo/ajouter/" method="post">
+        <form action="/todo/ajouter/" method="post" id="form">
             <p>
                 <label for="newtodo">Que dois-je faire ?</label>
                 <input type="text" name="newtodo" id="newtodo" autofocus />
-                <input type="submit" />
+                <input type="submit" id="submit" />
             </p>
         </form>
+ 
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            // Connexion à socket.io
+            var socket = io.connect('http://localhost:8080');
+
+            socket.on('miseajour', function(data) {
+                // On vide la liste des todo avant d'afficher la nouvelle
+                $('#ul').empty();
+
+                if (data != '') {
+                    data.forEach(function(todo, index) { 
+                        console.log(index);
+                        $('#ul').append('<li><a href="/todo/supprimer/' + index + '">✘</a>' + todo + '</li>');
+                    }
+                )}
+            }); 
+        </script>
     </body>
 </html>
