@@ -17,7 +17,7 @@ app.get('/todo', function(req, res) {
 /* On ajoute un élément à la todolist et le stoche dans newtodo*/
 .post('/todo/ajouter/', function(req, res) {
     if (req.body.newtodo != '') {
-        todoliste.push(req.body.newtodo);
+        todoliste.push(ent.encode(req.body.newtodo));
     }
     res.redirect('/todo');
 })
@@ -25,7 +25,7 @@ app.get('/todo', function(req, res) {
 /* Supprime un élément de la todolist */
 .get('/todo/supprimer/:id', function(req, res) {
     if (req.params.id != '') {
-        todoliste.splice(req.params.id, 1);
+        todoliste.splice(ent.encode(req.params.id), 1);
     }
     res.redirect('/todo');
 })
